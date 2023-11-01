@@ -44,7 +44,10 @@ for i in range(len(category)):
         reviews = []
         for j in range(1, 13):
             time.sleep(5)
-            game_url = driver.find_element('xpath', '/html/body/div[1]/div[7]/div[6]/div[4]/div/div/div/div/div/div[2]/div[9]/div[2]/div[2]/div[2]/div[2]/div/div[{}]/div/div/div/div[2]/div[2]/a'.format(j)).get_attribute('href')
+            try:
+                game_url = driver.find_element('xpath', '/html/body/div[1]/div[7]/div[6]/div[4]/div/div/div/div/div/div[2]/div[9]/div[2]/div[2]/div[2]/div[2]/div/div[{}]/div/div/div/div[2]/div[2]/a'.format(j)).get_attribute('href')
+            except:
+                game_url = driver.find_element('xpath', '/html/body/div[1]/div[7]/div[6]/div[4]/div/div/div/div[2]/div/div[2]/div[9]/div[2]/div[2]/div[2]/div[2]/div/div[1]/div/div/div/div[2]/div[2]/a'.format(j)).get_attribute('href')
             driver.get(game_url)
             actions = driver.find_element(By.CSS_SELECTOR, 'body')
             actions.send_keys(Keys.END)
@@ -90,6 +93,7 @@ for i in range(len(category)):
             driver.get(section_url)
         df_game = pd.DataFrame({'title':titles, 'review':reviews})
         df_game.to_csv('./crawling_data/steam_{}_{}.csv'.format(category[i][1:-1],page), index=False)
+        print('save csv')
         page += 12
 
 
