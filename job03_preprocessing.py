@@ -2,18 +2,22 @@ import pandas as pd
 from konlpy.tag import Okt
 import re
 
-df = pd.read_csv('./crawling_data/steam_review_*.csv')
+
+
+df = pd.read_csv('./crawling_data/steam_review_20231102.csv')
 df.info()
 
 okt = Okt()
 
-drop_words = ['Posted', 'EARLY ACCESS REVIEW', 'January', 'February', 'March','April',
+drop_words = ['Posted', 'EARLY', 'ACCESS', 'REVIEW', 'January', 'February', 'March','April',
             'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
+df_drop_words = pd.DataFrame({'stopword':drop_words})
 
 df_stopwords = pd.read_csv('./stopwords.csv')
-df_stopwords.append(drop_words)
+df_stopwords = pd.concat([df_stopwords, df_drop_words], ignore_index=True)
 stopwords = list(df_stopwords['stopword'])
+print(df_stopwords.tail())
 cleaned_sentences = []
 
 count = 0
@@ -30,7 +34,9 @@ for review in df.review:
     df_token = pd.DataFrame(tokened_review, columns=['word','class'])
     df_token = df_token[(df_token['class']=='Noun') |
                         (df_token['class']=='Verb') |
+                        (df_token['class'] == 'Alpha') |
                         (df_token['class']=='Adjective')]
+
     words = []
     for word in df_token.word:
         if len(word) > 1:
