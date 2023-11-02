@@ -99,7 +99,7 @@ for _ in range(50):
                 print('..')
         driver.get(section_url)
     df_game = pd.DataFrame({'title':titles, 'review':reviews})
-    df_game.to_csv('./crawling_data/steam_{}_{}.csv'.format(category[i][1:-1],page), index=False)
+    df_game.to_csv('./crawling_data/steam_{}_{}.csv'.format(category[1:-1],page), index=False)
     print('save csv')
     page += 12
 
