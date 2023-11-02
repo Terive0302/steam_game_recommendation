@@ -3,7 +3,7 @@ from gensim.models import Word2Vec
 
 
 
-df_review = pd.read_csv('./crawling_data/cleaned_one_review.csv')
+df_review = pd.read_csv('crawling_data/backup/cleaned_one_review.csv')
 df_review.info()
 
 reviews = list(df_review['reviews'])

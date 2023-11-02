@@ -5,7 +5,7 @@ import pickle
 
 
 
-df_reviews = pd.read_csv('./crawling_data/cleaned_one_review.csv')
+df_reviews = pd.read_csv('crawling_data/backup/cleaned_one_review.csv')
 df_reviews.info()
 
 Tfidf = TfidfVectorizer(sublinear_tf=True)

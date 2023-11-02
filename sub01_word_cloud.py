@@ -8,8 +8,8 @@ font_path = './malgun.ttf'
 font_name = font_manager.FontProperties(fname=font_path).get_name()
 plt.rc('font', family='NanumBarunGothic')
 
-df = pd.read_csv('./crawling_data/cleaned_one_review.csv')
-words = df.iloc[39, 1].split()
+df = pd.read_csv('crawling_data/backup/cleaned_one_review.csv')
+words = df.iloc[5, 1].split()
 print(words)
 
 word_dict = collections.Counter(words)

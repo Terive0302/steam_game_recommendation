@@ -7,6 +7,10 @@ from gensim.models import Word2Vec
 from scipy.io import mmread
 import pickle
 from PyQt5.QtCore import QStringListModel
+from wordcloud import WordCloud
+import collections
+import matplotlib.pyplot as plt
+from matplotlib import font_manager
 
 
 
@@ -16,17 +20,15 @@ class Exam(QWidget, form_window):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
         self.Tfidf_matrix = mmread('./models/tfidf_game_review.mtx').tocsr()
         with open('./models/tfidf.pickle', 'rb') as f:
             self.Tfidf = pickle.load(f)
         self.embedding_model = Word2Vec.load('./models/word2vec_game_review.model')
-        self.df_reviews = pd.read_csv('./crawling_data/cleaned_one_review.csv')
-
+        self.df_reviews = pd.read_csv('crawling_data/backup/cleaned_one_review.csv')
         self.titles = list(self.df_reviews['titles'])
         self.titles.sort()
-
         self.btn_recommendation.clicked.connect(self.btn_slot)
+
 
 
     def btn_slot(self):
@@ -77,6 +79,22 @@ class Exam(QWidget, form_window):
         recMovieList = self.df_reviews.iloc[movieIdx, 0]
         recMovieList = '\n'.join(recMovieList[1:])
         return recMovieList
+
+    def showWordloud(self):
+        font_path = './malgun.ttf'
+        plt.rc('font', family='NanumBarunGothic')
+        df = pd.read_csv('crawling_data/backup/cleaned_one_review.csv')
+        words = df.iloc[39, 1].split()
+        word_dict = collections.Counter(words)
+        word_dict = dict(word_dict)
+        wordcloud_img = WordCloud(
+            background_color='white', max_words=2000, font_path=font_path
+        ).generate_from_frequencies(word_dict)
+        plt.figure(figsize=(12, 12))
+        plt.imshow(wordcloud_img, interpolation='bilinear')
+        plt.axis('off')
+        plt.show()
+
 
 
 

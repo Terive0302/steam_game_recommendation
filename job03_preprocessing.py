@@ -4,13 +4,14 @@ import re
 
 
 
-df = pd.read_csv('./crawling_data/steam_review_20231102.csv')
+df = pd.read_csv('crawling_data/steam_review_20231102.csv')
 df.info()
 
 okt = Okt()
 
 drop_words = ['Posted', 'EARLY', 'ACCESS', 'REVIEW', 'January', 'February', 'March','April',
-            'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
+              'and', 'the', 'of', 'is', 'are', 'to', 'but']
 
 df_drop_words = pd.DataFrame({'stopword':drop_words})
 

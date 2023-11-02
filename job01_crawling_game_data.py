@@ -26,10 +26,11 @@ flag = 0
 # category = ('/sim_building_automation/', '/sim_farming_crafting/', '/sim_physics_sandbox/', '/sim_life/',
 #             '/sim_dating/', '/sim_space_flight/', '/sim_hobby_sim/')
 category = '/simulation/'
+category1 = '/sports_and_racing/'
 # for i in range(1,len(category)):
-page = 0
+page = 192
 for _ in range(50):
-    section_url = url + category + '?flavor=contenthub_topsellers&offset=' + str(page)
+    section_url = url + category1 + '?flavor=contenthub_topsellers&offset=' + str(page)
     driver.get(section_url)
     time.sleep(0.5)
     if flag == 0:
@@ -99,7 +100,7 @@ for _ in range(50):
                 print('..')
         driver.get(section_url)
     df_game = pd.DataFrame({'title':titles, 'review':reviews})
-    df_game.to_csv('./crawling_data/steam_{}_{}.csv'.format(category[1:-1],page), index=False)
+    df_game.to_csv('./crawling_data/steam_{}_{}.csv'.format(category1[1:-1],page), index=False)
     print('save csv')
     page += 12
 
