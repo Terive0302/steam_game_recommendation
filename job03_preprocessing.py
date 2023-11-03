@@ -4,7 +4,7 @@ import re
 
 
 
-df = pd.read_csv('crawling_data/steam_review_20231102.csv')
+df = pd.read_csv('./crawling_data/steam_review_20231102.csv')
 df.info()
 
 okt = Okt()
@@ -31,13 +31,18 @@ for review in df.review:
     if count%10000 == 0:
         print(count/ 1000, end='')
     review = re.sub('[^가-힣|a-z|A-Z]', ' ', review)
-    tokened_review = okt.pos(review, stem=True)
-    df_token = pd.DataFrame(tokened_review, columns=['word','class'])
-    df_token = df_token[(df_token['class']=='Noun') |
-                        (df_token['class']=='Verb') |
-                        (df_token['class'] == 'Alpha') |
-                        (df_token['class']=='Adjective')]
-
+    try:
+        tokened_review = okt.pos(review, stem=True)
+        df_token = pd.DataFrame(tokened_review, columns=['word','class'])
+        df_token = df_token[(df_token['class']=='Noun') |
+                            (df_token['class']=='Verb') |
+                            (df_token['class'] == 'Alpha') |
+                            (df_token['class']=='Adjective')]
+    except:
+        continue
+    while len(cleaned_sentences) < len(df):
+        cleaned_sentences.append('')
+    print(count)
     words = []
     for word in df_token.word:
         if len(word) > 1:
@@ -45,6 +50,7 @@ for review in df.review:
                 words.append(word)
     cleaned_sentence = ' '.join(words)
     cleaned_sentences.append(cleaned_sentence)
+    print(cleaned_sentence)
 
 df['cleaned_sentences'] = cleaned_sentences
 df = df[['title', 'cleaned_sentences']]
