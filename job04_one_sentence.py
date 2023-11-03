@@ -2,7 +2,7 @@ import pandas as pd
 
 
 
-df = pd.read_csv('crawling_data/backup/cleaned_review.csv')
+df = pd.read_csv('./crawling_data/cleaned_review.csv')
 df.dropna(inplace=True)
 df.info()
 
